@@ -3,11 +3,11 @@ package VIEW;
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 import DAO.Conexao;
-import dao.UsuarioDAO;
+import DAO.UsuarioDAO;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.net.URL;
-import model.UsuarioM;
+import MODEL.UsuarioM;
 import util.LimiteDigitos;
 
 public class LoginView extends javax.swing.JFrame {
@@ -27,9 +27,10 @@ public class LoginView extends javax.swing.JFrame {
         tfdUsuario.setDocument(new LimiteDigitos(20));
         tfdSenha.setDocument(new LimiteDigitos(20));
         
-        URL url = this.getClass().getResource("/view/icones/icon.png");
-        Image imagemTitulo = Toolkit.getDefaultToolkit().getImage(url);
-        this.setIconImage(imagemTitulo);
+        //URL url = this.getClass().getResource("/view/icones/icon.png");
+        //Image imagemTitulo = Toolkit.getDefaultToolkit().getImage(url);
+        //this.setIconImage(imagemTitulo);
+        PrincipalView pv = new PrincipalView();
     }
 
     /**
@@ -168,7 +169,7 @@ public class LoginView extends javax.swing.JFrame {
                         tfdSenha.setText("");
                         tfdUsuario.requestFocus();
                     }else{
-                        PrincipalView pv = new PrincipalView(usuario);
+                        PrincipalView pv = new PrincipalView();
                         this.dispose();
                     }
                     
@@ -206,7 +207,7 @@ public class LoginView extends javax.swing.JFrame {
                     tfdSenha.setText("");
                     tfdUsuario.requestFocus();
                 }else{
-                    PrincipalView pv = new PrincipalView(usuario);
+                    PrincipalView pv = new PrincipalView();
                     
                     this.dispose();
                     

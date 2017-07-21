@@ -2,10 +2,10 @@ package MODEL;
 
 
 public class UsuarioM {
-    Integer id;
-    String nome;
-    String usuario;
-    String senha;
+    private Integer id;
+    private String nome;
+    private String usuario;
+    private String senha;
 
     public UsuarioM(Integer id, String nome, String usuario, String senha) {
         this.id = id;

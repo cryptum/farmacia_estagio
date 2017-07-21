@@ -1,5 +1,7 @@
 package CONTROLLER;
 
+import VIEW.LoginView;
+
 public class Farmacia {
 
 
@@ -8,6 +10,6 @@ public class Farmacia {
     }
     
     public void executar(){
-        //LoginView login = new LoginView();
+        LoginView login = new LoginView();
     }
 }
