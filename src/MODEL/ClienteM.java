@@ -12,12 +12,18 @@ package MODEL;
 public class ClienteM {
     private int id;
     private String nome;
+    private String endereco;
+    private String numero;
+    private String bairro;
     private String telefone;
     private String data_nascimento;
 
-    public ClienteM(int id, String nome, String telefone, String data_nascimento) {
+    public ClienteM(int id, String nome, String endereco, String numero, String bairro, String telefone, String data_nascimento) {
         this.id = id;
         this.nome = nome;
+        this.endereco = endereco;
+        this.numero = numero;
+        this.bairro = bairro;
         this.telefone = telefone;
         this.data_nascimento = data_nascimento;
     }
@@ -41,6 +47,30 @@ public class ClienteM {
         this.nome = nome;
     }
 
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
+    }
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public void setNumero(String numero) {
+        this.numero = numero;
+    }
+
+    public String getBairro() {
+        return bairro;
+    }
+
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
+    }
+
     public String getTelefone() {
         return telefone;
     }
@@ -56,4 +86,6 @@ public class ClienteM {
     public void setData_nascimento(String data_nascimento) {
         this.data_nascimento = data_nascimento;
     }
+
+   
 }
