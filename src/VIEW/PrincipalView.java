@@ -82,7 +82,7 @@ public class PrincipalView extends javax.swing.JFrame {
                 .addComponent(jLabel3)
                 .addGap(22, 22, 22)
                 .addComponent(jLabel4)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(267, Short.MAX_VALUE))
         );
 
         jPanel2.setBackground(new java.awt.Color(204, 255, 204));
