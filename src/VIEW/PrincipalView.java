@@ -6,6 +6,7 @@
 package VIEW;
 
 import java.awt.GridLayout;
+import javax.swing.JFrame;
 
 /**
  *
@@ -18,7 +19,8 @@ public class PrincipalView extends javax.swing.JFrame {
      */
     public PrincipalView() {
         initComponents();
-        this.setVisible(true); 
+        this.setVisible(true);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
     /**

@@ -38,7 +38,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `FarmaciaAlex`.`Assistencia` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `Cliente_id` INT NOT NULL,
-  `medicamento` VARCHAR(45) NULL,
+  `medicamento` VARCHAR(90) NULL,
   `data_atendimento` VARCHAR(20) NULL,
   `quadro_acontecimento` VARCHAR(150) NULL,
   `atendente` VARCHAR(50) NULL,

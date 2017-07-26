@@ -16,6 +16,7 @@ public class ClienteView extends javax.swing.JInternalFrame {
      */
     public ClienteView() {
         initComponents();
+        this.setVisible(true);
     }
 
     /**
@@ -74,20 +75,25 @@ public class ClienteView extends javax.swing.JInternalFrame {
 
         jTextField5.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
 
+        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/VIEW/imagem/Salvar.png"))); // NOI18N
-        jLabel6.setText("SALVAR");
+        jLabel6.setText("Salvar");
 
+        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/VIEW/imagem/Novo.png"))); // NOI18N
-        jLabel7.setText("NOVO");
+        jLabel7.setText("Novo");
 
+        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/VIEW/imagem/Alterar.png"))); // NOI18N
-        jLabel8.setText("ALTERAR");
+        jLabel8.setText("Alterar");
 
+        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/VIEW/imagem/Cancelar.png"))); // NOI18N
-        jLabel9.setText("CANCELAR");
+        jLabel9.setText("Cancelar");
 
+        jLabel10.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/VIEW/imagem/Excluir.png"))); // NOI18N
-        jLabel10.setText("EXCLUIR");
+        jLabel10.setText("Excluir");
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
         jLabel11.setText("Bairro");
