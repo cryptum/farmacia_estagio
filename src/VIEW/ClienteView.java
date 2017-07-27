@@ -50,56 +50,57 @@ public class ClienteView extends javax.swing.JInternalFrame {
         jLabel12 = new javax.swing.JLabel();
         jTextField7 = new javax.swing.JTextField();
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         jLabel1.setText("ID");
 
-        jTextField1.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        jTextField1.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         jLabel2.setText("Nome");
 
-        jTextField2.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        jTextField2.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         jLabel3.setText("Endereço");
 
-        jTextField3.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        jTextField3.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         jLabel4.setText("Telefone");
 
-        jTextField4.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        jTextField4.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         jLabel5.setText("Data Nascimento");
 
-        jTextField5.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        jTextField5.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/VIEW/imagem/Salvar.png"))); // NOI18N
         jLabel6.setText("Salvar");
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/VIEW/imagem/Novo.png"))); // NOI18N
         jLabel7.setText("Novo");
 
-        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/VIEW/imagem/Alterar.png"))); // NOI18N
         jLabel8.setText("Alterar");
 
-        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        jLabel9.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/VIEW/imagem/Cancelar.png"))); // NOI18N
         jLabel9.setText("Cancelar");
 
-        jLabel10.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        jLabel10.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/VIEW/imagem/Excluir.png"))); // NOI18N
         jLabel10.setText("Excluir");
 
-        jLabel11.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        jLabel11.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         jLabel11.setText("Bairro");
 
-        jTextField6.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        jTextField6.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
 
+        jTable1.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -110,7 +111,10 @@ public class ClienteView extends javax.swing.JInternalFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
+        jLabel12.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         jLabel12.setText("Numero");
+
+        jTextField7.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
