@@ -44,6 +44,8 @@ public class Assistencia_Cliente extends javax.swing.JInternalFrame {
         jLabel9 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
 
+        setClosable(true);
+
         jLabel1.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         jLabel1.setText("ID");
 

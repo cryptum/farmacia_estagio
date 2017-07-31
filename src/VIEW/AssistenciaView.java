@@ -41,6 +41,8 @@ public class AssistenciaView extends javax.swing.JInternalFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
 
+        setClosable(true);
+
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
 
         jLabel1.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N

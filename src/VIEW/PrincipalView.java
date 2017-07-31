@@ -8,6 +8,7 @@ package VIEW;
 import java.awt.GridLayout;
 import javax.swing.JFrame;
 import VIEW.*;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -34,10 +35,10 @@ public class PrincipalView extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        Clientes = new javax.swing.JLabel();
+        Assistencia = new javax.swing.JLabel();
+        Sobre = new javax.swing.JLabel();
+        Sair = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -48,21 +49,26 @@ public class PrincipalView extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(234, 238, 240));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/VIEW/imagem/64cliente.png"))); // NOI18N
-        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+        Clientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/VIEW/imagem/64cliente.png"))); // NOI18N
+        Clientes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel1MouseClicked(evt);
+                ClientesMouseClicked(evt);
             }
         });
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/VIEW/imagem/64assistencia.png"))); // NOI18N
-
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/VIEW/imagem/64sobre.png"))); // NOI18N
-
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/VIEW/imagem/64exit.png"))); // NOI18N
-        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
+        Assistencia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/VIEW/imagem/64assistencia.png"))); // NOI18N
+        Assistencia.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel4MouseClicked(evt);
+                AssistenciaMouseClicked(evt);
+            }
+        });
+
+        Sobre.setIcon(new javax.swing.ImageIcon(getClass().getResource("/VIEW/imagem/64sobre.png"))); // NOI18N
+
+        Sair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/VIEW/imagem/64exit.png"))); // NOI18N
+        Sair.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                SairMouseClicked(evt);
             }
         });
 
@@ -92,8 +98,8 @@ public class PrincipalView extends javax.swing.JFrame {
                     .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel2))
+                            .addComponent(Sair)
+                            .addComponent(Assistencia))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -101,27 +107,27 @@ public class PrincipalView extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))))
+                            .addComponent(Clientes, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(Sobre, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Clientes, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
                 .addGap(27, 27, 27)
-                .addComponent(jLabel2)
+                .addComponent(Assistencia)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6)
                 .addGap(27, 27, 27)
-                .addComponent(jLabel3)
+                .addComponent(Sobre)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel7)
                 .addGap(27, 27, 27)
-                .addComponent(jLabel4)
+                .addComponent(Sair)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel8)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -158,22 +164,34 @@ public class PrincipalView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
-    this.dispose();
-    }//GEN-LAST:event_jLabel4MouseClicked
+    private void SairMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SairMouseClicked
+        int confirma = JOptionPane.showConfirmDialog(null, "Deseja Sair ?");
+            if(confirma == 0){
+                this.dispose();
+            }else{
+                
+            }
+    }//GEN-LAST:event_SairMouseClicked
 
-    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+    private void ClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ClientesMouseClicked
     ClienteView cliente = new ClienteView();
     pnl2.removeAll();
-            pnl2.add(cliente);
-            pnl2.updateUI();
-    }//GEN-LAST:event_jLabel1MouseClicked
+    pnl2.add(cliente);
+    pnl2.updateUI();
+    }//GEN-LAST:event_ClientesMouseClicked
+
+    private void AssistenciaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AssistenciaMouseClicked
+    AssistenciaView assistencia = new AssistenciaView();
+    pnl2.removeAll();
+    pnl2.add(assistencia);
+    pnl2.updateUI();
+    }//GEN-LAST:event_AssistenciaMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel Assistencia;
+    private javax.swing.JLabel Clientes;
+    private javax.swing.JLabel Sair;
+    private javax.swing.JLabel Sobre;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
