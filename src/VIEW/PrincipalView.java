@@ -175,6 +175,8 @@ public class PrincipalView extends javax.swing.JFrame {
 
     private void ClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ClientesMouseClicked
     ClienteView cliente = new ClienteView();
+    cliente.setLocation(pnl2.getWidth()/2 - cliente.getWidth()/2,
+                    pnl2.getHeight()/2 - cliente.getHeight()/2);
     pnl2.removeAll();
     pnl2.add(cliente);
     pnl2.updateUI();
