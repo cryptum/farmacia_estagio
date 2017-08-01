@@ -30,7 +30,6 @@ public class LoginView extends javax.swing.JFrame {
         //URL url = this.getClass().getResource("/view/icones/icon.png");
         //Image imagemTitulo = Toolkit.getDefaultToolkit().getImage(url);
         //this.setIconImage(imagemTitulo);
-        PrincipalView pv = new PrincipalView();
     }
 
     /**

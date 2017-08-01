@@ -98,6 +98,11 @@ public class ClienteView extends javax.swing.JInternalFrame {
         btnNovo.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         btnNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/VIEW/imagem/Novo.png"))); // NOI18N
         btnNovo.setText("Novo");
+        btnNovo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnNovoMouseClicked(evt);
+            }
+        });
 
         btnAlterar.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         btnAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/VIEW/imagem/Alterar.png"))); // NOI18N
@@ -244,18 +249,19 @@ public class ClienteView extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "Erro: "+ex.getMessage(), "erro", JOptionPane.WARNING_MESSAGE);
         }
         
-        String dados[][] = new String[listaclientes.size()][6];
+        String dados[][] = new String[listaclientes.size()][7];
             int i = 0;
             for (ClienteM cliente : listaclientes) {
                 dados[i][0] = String.valueOf(cliente.getId());
                 dados[i][1] = cliente.getNome();
-                dados[i][2] = cliente.getEndereco()+cliente.getNumero();
-                dados[i][3] = cliente.getBairro();
-                dados[i][4] = cliente.getTelefone();
-                dados[i][5] = cliente.getData_nascimento();
+                dados[i][2] = cliente.getEndereco();
+                dados[i][3] = cliente.getNumero();
+                dados[i][4] = cliente.getBairro();
+                dados[i][5] = cliente.getTelefone();
+                dados[i][6] = cliente.getData_nascimento();
                 i++;
             }
-            String tituloColuna[] = {"ID", "Nome", "Endereço", "Bairro", "Telefone","Nascimento"};
+            String tituloColuna[] = {"ID", "Nome", "Endereço","Numero", "Bairro", "Telefone","Nascimento"};
             DefaultTableModel tabelaCliente = new DefaultTableModel();
             tabelaCliente.setDataVector(dados, tituloColuna);
             tblCliente.setModel(new DefaultTableModel(dados, tituloColuna) {
@@ -347,6 +353,10 @@ public class ClienteView extends javax.swing.JInternalFrame {
             }
         }
     }//GEN-LAST:event_btnExcluirMouseClicked
+
+    private void btnNovoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNovoMouseClicked
+        limpaCampos();
+    }//GEN-LAST:event_btnNovoMouseClicked
 
     
     public void limpaCampos(){

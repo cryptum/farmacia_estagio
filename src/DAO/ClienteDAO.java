@@ -31,6 +31,8 @@ public class ClienteDAO {
         pst.setString(5, cliente.getBairro());
         pst.setString(6, cliente.getTelefone());
         pst.setString(7, cliente.getData_nascimento());
+        pst.execute();
+        pst.close();
     }
     
     public List<ClienteM> ListaCliente() throws SQLException{
@@ -47,7 +49,7 @@ public class ClienteDAO {
                             rs.getString("numero"),
                             rs.getString("bairro"),
                             rs.getString("telefone"),
-                            rs.getString("data_nacimento")));
+                            rs.getString("data_nascimento")));
         }
         pst.close();
         return listaclientes;
@@ -76,7 +78,7 @@ public class ClienteDAO {
                             rs.getString("numero"),
                             rs.getString("bairro"),
                             rs.getString("telefone"),
-                            rs.getString("data_nacimento"));
+                            rs.getString("data_nascimento"));
                    
         }
         pst.close();
