@@ -107,10 +107,20 @@ public class ClienteView extends javax.swing.JInternalFrame {
         btnAlterar.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         btnAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/VIEW/imagem/Alterar.png"))); // NOI18N
         btnAlterar.setText("Alterar");
+        btnAlterar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAlterarMouseClicked(evt);
+            }
+        });
 
         btnCancelar.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/VIEW/imagem/Cancelar.png"))); // NOI18N
         btnCancelar.setText("Cancelar");
+        btnCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCancelarMouseClicked(evt);
+            }
+        });
 
         btnExcluir.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         btnExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/VIEW/imagem/Excluir.png"))); // NOI18N
@@ -288,11 +298,11 @@ public class ClienteView extends javax.swing.JInternalFrame {
     }
     
     private void btnSalvarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalvarMouseClicked
+        cliente = new ClienteM();
         if(txtNome.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Preencha todos os campos");
             txtNome.requestFocusInWindow();
-        }else{
-            cliente = new ClienteM();
+        }else if(txtId.getText().isEmpty()){
             cliente.setNome(txtNome.getText());
             cliente.setEndereco(txtEndereco.getText());
             cliente.setNumero(txtNumero.getText());
@@ -307,6 +317,28 @@ public class ClienteView extends javax.swing.JInternalFrame {
             }
             JOptionPane.showMessageDialog(null, "Gravado com Sucesso.");
             atualizaTabelaCliente();
+            preparaSalvareCancelar();
+            desativaCampos();
+            limpaCampos();
+        }else{
+            cliente.setId(Integer.parseInt(txtId.getText()));
+            cliente.setNome(txtNome.getText());
+            cliente.setEndereco(txtEndereco.getText());
+            cliente.setNumero(txtNumero.getText());
+            cliente.setBairro(txtBairro.getText());
+            cliente.setTelefone(txtTelefone.getText());
+            cliente.setData_nascimento(txtData_nascimento.getText());
+            
+            try {
+                clientedao.salvar(cliente);
+            } catch (SQLException ex) {
+                Logger.getLogger(ClienteView.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            JOptionPane.showMessageDialog(null, "Gravado com Sucesso.");
+            atualizaTabelaCliente();
+            preparaSalvareCancelar();
+            desativaCampos();
+            
         }
     }//GEN-LAST:event_btnSalvarMouseClicked
 
@@ -332,6 +364,7 @@ public class ClienteView extends javax.swing.JInternalFrame {
         txtBairro.setText(cliente.getBairro());
         txtTelefone.setText(cliente.getTelefone());
         txtData_nascimento.setText(cliente.getData_nascimento());
+        preparaSelecaoTabela();
     }//GEN-LAST:event_tblClienteMouseClicked
 
     private void btnExcluirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExcluirMouseClicked
@@ -350,13 +383,27 @@ public class ClienteView extends javax.swing.JInternalFrame {
                 }
                 atualizaTabelaCliente();
                 limpaCampos();
+                preparaExcluir();
             }
         }
     }//GEN-LAST:event_btnExcluirMouseClicked
 
     private void btnNovoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNovoMouseClicked
         limpaCampos();
+        preparaNovo();
+        ativaCampos();
     }//GEN-LAST:event_btnNovoMouseClicked
+
+    private void btnCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseClicked
+        limpaCampos();
+        preparaSalvareCancelar();
+        desativaCampos();
+    }//GEN-LAST:event_btnCancelarMouseClicked
+
+    private void btnAlterarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAlterarMouseClicked
+        preparaAlterar();
+        ativaCampos();
+    }//GEN-LAST:event_btnAlterarMouseClicked
 
     
     public void limpaCampos(){
@@ -367,6 +414,60 @@ public class ClienteView extends javax.swing.JInternalFrame {
         txtBairro.setText("");
         txtTelefone.setText("");
         txtData_nascimento.setText("");
+    }
+    
+    public void ativaCampos(){
+        txtNome.setEnabled(true);
+        txtEndereco.setEnabled(true);
+        txtNumero.setEnabled(true);
+        txtBairro.setEnabled(true);
+        txtTelefone.setEnabled(true);
+        txtData_nascimento.setEnabled(true);
+    }
+    
+    public void desativaCampos(){
+        txtNome.setEnabled(false);
+        txtEndereco.setEnabled(false);
+        txtNumero.setEnabled(false);
+        txtBairro.setEnabled(false);
+        txtTelefone.setEnabled(false);
+        txtData_nascimento.setEnabled(false);
+    }
+    
+    public void preparaNovo(){
+        btnNovo.setEnabled(false);
+        btnSalvar.setEnabled(true);
+        btnCancelar.setEnabled(true);
+        tblCliente.setEnabled(false);
+        tblCliente.clearSelection();
+    }
+    
+    public void preparaSalvareCancelar(){
+        btnNovo.setEnabled(true);
+        btnSalvar.setEnabled(false);
+        btnCancelar.setEnabled(false);
+        tblCliente.setEnabled(true);
+    }
+    
+    public void preparaSelecaoTabela(){
+        btnNovo.setEnabled(true);
+        btnExcluir.setEnabled(true);
+        btnAlterar.setEnabled(true);
+    }
+    
+    public void preparaAlterar(){
+        btnNovo.setEnabled(false);
+        btnExcluir.setEnabled(false);
+        btnAlterar.setEnabled(false);
+        btnSalvar.setEnabled(true);
+        btnCancelar.setEnabled(true);
+        tblCliente.setEnabled(true);
+        tblCliente.clearSelection();
+    }
+    
+    public void preparaExcluir(){
+        btnExcluir.setEnabled(false);
+        btnAlterar.setEnabled(false);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -242,6 +242,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Alterar"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnAlterarMouseClicked"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="btnCancelar">
       <Properties>
@@ -253,6 +256,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Cancelar"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnCancelarMouseClicked"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="btnExcluir">
       <Properties>
