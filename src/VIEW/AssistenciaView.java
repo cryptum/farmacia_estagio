@@ -5,18 +5,39 @@
  */
 package VIEW;
 
+import DAO.*;
+import MODEL.*;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author NUPSI 04
  */
 public class AssistenciaView extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form AssistenciaView
-     */
+    ClienteM cliente;
+    AssistenciaM assistencia;
+    
+    ClienteDAO clientedao;
+    AssistenciaDAO assistenciadao;
+    
+    List<ClienteM> listaclientes;
+    List<AssistenciaM> listaassistencia;
     public AssistenciaView() {
+        clientedao = new ClienteDAO();
+        assistenciadao = new AssistenciaDAO();
+        
+        listaclientes = new ArrayList<>();
+        listaassistencia = new ArrayList<>();
         initComponents();
         this.setVisible(true);
+        atualizaTabelaCliente();
     }
 
     /**
@@ -30,16 +51,16 @@ public class AssistenciaView extends javax.swing.JInternalFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtBusca = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jLabel2 = new javax.swing.JLabel();
+        tblCliente = new javax.swing.JTable();
+        btnBusca = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        tblAssistencia = new javax.swing.JTable();
+        btnNovo = new javax.swing.JLabel();
+        btnAlterar = new javax.swing.JLabel();
+        btnExcluir = new javax.swing.JLabel();
 
         setClosable(true);
 
@@ -48,10 +69,10 @@ public class AssistenciaView extends javax.swing.JInternalFrame {
         jLabel1.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         jLabel1.setText("Busca Cliente");
 
-        jTextField1.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
+        txtBusca.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
 
-        jTable1.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblCliente.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
+        tblCliente.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -62,11 +83,16 @@ public class AssistenciaView extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        tblCliente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblClienteMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblCliente);
 
-        jLabel2.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/VIEW/imagem/search.png"))); // NOI18N
-        jLabel2.setText("Busca");
+        btnBusca.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
+        btnBusca.setIcon(new javax.swing.ImageIcon(getClass().getResource("/VIEW/imagem/search.png"))); // NOI18N
+        btnBusca.setText("Busca");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -80,9 +106,9 @@ public class AssistenciaView extends javax.swing.JInternalFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 451, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jTextField1)
+                        .addComponent(txtBusca)
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel2)
+                        .addComponent(btnBusca)
                         .addGap(26, 26, 26)))
                 .addContainerGap())
         );
@@ -93,8 +119,8 @@ public class AssistenciaView extends javax.swing.JInternalFrame {
                 .addComponent(jLabel1)
                 .addGap(0, 0, 0)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                    .addComponent(txtBusca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBusca))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -102,8 +128,8 @@ public class AssistenciaView extends javax.swing.JInternalFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
 
-        jTable2.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tblAssistencia.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
+        tblAssistencia.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -114,24 +140,24 @@ public class AssistenciaView extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(tblAssistencia);
 
-        jLabel3.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/VIEW/imagem/Novo.png"))); // NOI18N
-        jLabel3.setText("Novo");
-        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnNovo.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
+        btnNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/VIEW/imagem/Novo.png"))); // NOI18N
+        btnNovo.setText("Novo");
+        btnNovo.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel3MouseClicked(evt);
+                btnNovoMouseClicked(evt);
             }
         });
 
-        jLabel4.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/VIEW/imagem/Alterar.png"))); // NOI18N
-        jLabel4.setText("Editar");
+        btnAlterar.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
+        btnAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/VIEW/imagem/Alterar.png"))); // NOI18N
+        btnAlterar.setText("Alterar");
 
-        jLabel5.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/VIEW/imagem/Excluir.png"))); // NOI18N
-        jLabel5.setText("Excluir");
+        btnExcluir.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
+        btnExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/VIEW/imagem/Excluir.png"))); // NOI18N
+        btnExcluir.setText("Excluir");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -145,11 +171,11 @@ public class AssistenciaView extends javax.swing.JInternalFrame {
                         .addContainerGap())
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(21, 21, 21)
-                        .addComponent(jLabel3)
+                        .addComponent(btnNovo)
                         .addGap(88, 88, 88)
-                        .addComponent(jLabel4)
+                        .addComponent(btnAlterar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 84, Short.MAX_VALUE)
-                        .addComponent(jLabel5)
+                        .addComponent(btnExcluir)
                         .addGap(62, 62, 62))))
         );
         jPanel2Layout.setVerticalGroup(
@@ -157,9 +183,9 @@ public class AssistenciaView extends javax.swing.JInternalFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(32, 32, 32)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5))
+                    .addComponent(btnNovo)
+                    .addComponent(btnAlterar)
+                    .addComponent(btnExcluir))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -189,27 +215,161 @@ public class AssistenciaView extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+    public void atualizaTabelaCliente(){
+        cliente = new ClienteM();
+        try {
+            listaclientes = clientedao.ListaCliente();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro: "+ex.getMessage(), "erro", JOptionPane.WARNING_MESSAGE);
+        }
+        
+        String dados[][] = new String[listaclientes.size()][3];
+            int i = 0;
+            for (ClienteM cliente : listaclientes) {
+                dados[i][0] = String.valueOf(cliente.getId());
+                dados[i][1] = cliente.getNome();
+                dados[i][2] = cliente.getEndereco();
+                i++;
+            }
+            String tituloColuna[] = {"ID", "Nome", "Endereço"};
+            DefaultTableModel tabelaCliente = new DefaultTableModel();
+            tabelaCliente.setDataVector(dados, tituloColuna);
+            tblCliente.setModel(new DefaultTableModel(dados, tituloColuna) {
+                boolean[] canEdit = new boolean[]{
+                    false, false, false
+                };
+
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return canEdit[columnIndex];
+                }
+            });
+
+            tblCliente.getColumnModel().getColumn(0).setPreferredWidth(10);
+            tblCliente.getColumnModel().getColumn(1).setPreferredWidth(200);
+            tblCliente.getColumnModel().getColumn(2).setPreferredWidth(100);
+            
+            DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
+            centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+            tblCliente.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+            tblCliente.setRowHeight(25);
+            tblCliente.updateUI();
+    }
+    public void atualizaTabelaBusca(){
+        cliente = new ClienteM();
+        try {
+            listaclientes = clientedao.ListaCliente();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro: "+ex.getMessage(), "erro", JOptionPane.WARNING_MESSAGE);
+        }
+        
+        String dados[][] = new String[listaclientes.size()][3];
+            int i = 0;
+            for (ClienteM cliente : listaclientes) {
+                dados[i][0] = String.valueOf(cliente.getId());
+                dados[i][1] = cliente.getNome();
+                dados[i][2] = cliente.getEndereco();
+                i++;
+            }
+            String tituloColuna[] = {"ID", "Nome", "Endereço"};
+            DefaultTableModel tabelaCliente = new DefaultTableModel();
+            tabelaCliente.setDataVector(dados, tituloColuna);
+            tblCliente.setModel(new DefaultTableModel(dados, tituloColuna) {
+                boolean[] canEdit = new boolean[]{
+                    false, false, false
+                };
+
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return canEdit[columnIndex];
+                }
+            });
+
+            tblCliente.getColumnModel().getColumn(0).setPreferredWidth(10);
+            tblCliente.getColumnModel().getColumn(1).setPreferredWidth(200);
+            tblCliente.getColumnModel().getColumn(2).setPreferredWidth(100);
+            
+            DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
+            centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+            tblCliente.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+            tblCliente.setRowHeight(25);
+            tblCliente.updateUI();
+    }
+    
+    public void atualizaTabelaAssistencia(){
+        
+        String dados[][] = new String[listaassistencia.size()][4];
+            int i = 0;
+            for (ClienteM cliente : listaclientes) {
+                dados[i][0] = String.valueOf(assistencia.getId());
+                dados[i][1] = String.valueOf(assistencia.getNome_cliente());
+                dados[i][2] = assistencia.getMedicamento();
+                dados[i][2] = assistencia.getAtendente();
+                i++;
+            }
+            String tituloColuna[] = {"ID", "Nome", "Endereço"};
+            DefaultTableModel tabelaCliente = new DefaultTableModel();
+            tabelaCliente.setDataVector(dados, tituloColuna);
+            tblAssistencia.setModel(new DefaultTableModel(dados, tituloColuna) {
+                boolean[] canEdit = new boolean[]{
+                    false, false, false,false
+                };
+
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return canEdit[columnIndex];
+                }
+            });
+
+            tblAssistencia.getColumnModel().getColumn(0).setPreferredWidth(10);
+            tblAssistencia.getColumnModel().getColumn(1).setPreferredWidth(200);
+            tblAssistencia.getColumnModel().getColumn(2).setPreferredWidth(100);
+            
+            DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
+            centralizado.setHorizontalAlignment(SwingConstants.CENTER);
+            tblAssistencia.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+            tblAssistencia.setRowHeight(25);
+            tblAssistencia.updateUI();
+    }
+    private void btnNovoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNovoMouseClicked
     NewJFrame assis_cliente = new NewJFrame();
     assis_cliente.setVisible(true);
     assis_cliente.setLocation(assis_cliente.getWidth()/2 - assis_cliente.getWidth()/2,
-                    assis_cliente.getHeight()/2 - assis_cliente.getHeight()/2);
+    assis_cliente.getHeight()/2 - assis_cliente.getHeight()/2);
 
-    }//GEN-LAST:event_jLabel3MouseClicked
+    }//GEN-LAST:event_btnNovoMouseClicked
+
+    private void tblClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClienteMouseClicked
+    listaassistencia = null;
+    
+        try{
+
+            listaassistencia = assistenciadao.buscaFiltroNome(tblCliente.getValueAt(tblCliente.getSelectedRow(), 0).toString());
+            if(listaassistencia == null){
+
+                JOptionPane.showMessageDialog(null, "Nenhum contato encontrado!","", JOptionPane.WARNING_MESSAGE);
+                atualizaTabelaCliente();
+
+            }else{
+
+            atualizaTabelaAssistencia();
+
+            }
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, "Erro: "+ex.getMessage(), "erro", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_tblClienteMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btnAlterar;
+    private javax.swing.JLabel btnBusca;
+    private javax.swing.JLabel btnExcluir;
+    private javax.swing.JLabel btnNovo;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTable tblAssistencia;
+    private javax.swing.JTable tblCliente;
+    private javax.swing.JTextField txtBusca;
     // End of variables declaration//GEN-END:variables
 }

@@ -273,7 +273,7 @@ public class ClienteView extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-     public void atualizaTabelaCliente(){
+    public void atualizaTabelaCliente(){
         cliente = new ClienteM();
         try {
             listaclientes = clientedao.ListaCliente();
