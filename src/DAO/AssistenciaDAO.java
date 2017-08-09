@@ -21,7 +21,7 @@ public class AssistenciaDAO {
     PreparedStatement pst;
     String sql;
     
-    public List<AssistenciaM> buscaFiltroNome(String Nome) throws SQLException{
+    public List<AssistenciaM> buscaAssistencia(String Nome) throws SQLException{
         List<AssistenciaM> assistenciaM = new ArrayList<AssistenciaM>();
         int cont = 0;
         
@@ -29,7 +29,7 @@ public class AssistenciaDAO {
         pst = Conexao.getInstance().prepareStatement(sql);
         pst.setString(1, Nome);
         ResultSet rs = pst.executeQuery();
-        while(rs.next()){
+        /*while(rs.next()){
            assistenciaM.add(new AssistenciaM(
                    rs.getInt("id"),
                    rs.getInt("Cliente_id"),
@@ -38,7 +38,7 @@ public class AssistenciaDAO {
                    rs.getString("quadro_acontecimento"),
                    rs.getString("atendente")));  
            cont ++;
-        }
+        }*/
         if(cont == 0){
             return null;
         }

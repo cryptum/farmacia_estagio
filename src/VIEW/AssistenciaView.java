@@ -65,6 +65,11 @@ public class AssistenciaView extends javax.swing.JInternalFrame {
         setClosable(true);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
+        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel1MouseClicked(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         jLabel1.setText("Busca Cliente");
@@ -93,6 +98,11 @@ public class AssistenciaView extends javax.swing.JInternalFrame {
         btnBusca.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         btnBusca.setIcon(new javax.swing.ImageIcon(getClass().getResource("/VIEW/imagem/search.png"))); // NOI18N
         btnBusca.setText("Busca");
+        btnBusca.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnBuscaMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -127,6 +137,11 @@ public class AssistenciaView extends javax.swing.JInternalFrame {
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
+        jPanel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel2MouseClicked(evt);
+            }
+        });
 
         tblAssistencia.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         tblAssistencia.setModel(new javax.swing.table.DefaultTableModel(
@@ -256,11 +271,6 @@ public class AssistenciaView extends javax.swing.JInternalFrame {
     }
     public void atualizaTabelaBusca(){
         cliente = new ClienteM();
-        try {
-            listaclientes = clientedao.ListaCliente();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro: "+ex.getMessage(), "erro", JOptionPane.WARNING_MESSAGE);
-        }
         
         String dados[][] = new String[listaclientes.size()][3];
             int i = 0;
@@ -298,11 +308,11 @@ public class AssistenciaView extends javax.swing.JInternalFrame {
         
         String dados[][] = new String[listaassistencia.size()][4];
             int i = 0;
-            for (ClienteM cliente : listaclientes) {
+            for (AssistenciaM assistencia : listaassistencia) {
                 dados[i][0] = String.valueOf(assistencia.getId());
                 dados[i][1] = String.valueOf(assistencia.getNome_cliente());
                 dados[i][2] = assistencia.getMedicamento();
-                dados[i][2] = assistencia.getAtendente();
+                dados[i][3] = assistencia.getAtendente();
                 i++;
             }
             String tituloColuna[] = {"ID", "Nome", "Endereço"};
@@ -330,9 +340,7 @@ public class AssistenciaView extends javax.swing.JInternalFrame {
     }
     private void btnNovoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNovoMouseClicked
     NewJFrame assis_cliente = new NewJFrame();
-    assis_cliente.setVisible(true);
-    assis_cliente.setLocation(assis_cliente.getWidth()/2 - assis_cliente.getWidth()/2,
-    assis_cliente.getHeight()/2 - assis_cliente.getHeight()/2);
+    this.setVisible(false);
 
     }//GEN-LAST:event_btnNovoMouseClicked
 
@@ -341,11 +349,10 @@ public class AssistenciaView extends javax.swing.JInternalFrame {
     
         try{
 
-            listaassistencia = assistenciadao.buscaFiltroNome(tblCliente.getValueAt(tblCliente.getSelectedRow(), 0).toString());
+            listaassistencia = assistenciadao.buscaAssistencia(tblCliente.getValueAt(tblCliente.getSelectedRow(), 0).toString());
             if(listaassistencia == null){
 
                 JOptionPane.showMessageDialog(null, "Nenhum contato encontrado!","", JOptionPane.WARNING_MESSAGE);
-                atualizaTabelaCliente();
 
             }else{
 
@@ -356,6 +363,43 @@ public class AssistenciaView extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "Erro: "+ex.getMessage(), "erro", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_tblClienteMouseClicked
+
+    private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
+        tblCliente.clearSelection();
+    }//GEN-LAST:event_jPanel1MouseClicked
+
+    private void jPanel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MouseClicked
+        tblAssistencia.clearSelection();
+    }//GEN-LAST:event_jPanel2MouseClicked
+
+    private void btnBuscaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscaMouseClicked
+    listaclientes = null;
+        if(txtBusca.getText().equals("") )
+        {
+            JOptionPane.showMessageDialog(null, "Preencha o campo corretamente! ", "erro", JOptionPane.WARNING_MESSAGE);
+            atualizaTabelaCliente();
+        }
+        else
+        {
+            try{
+                
+                listaclientes = clientedao.buscaCliente(txtBusca.getText());
+                if(listaclientes == null){
+                    
+                    JOptionPane.showMessageDialog(null, "Nenhum contato encontrado!","", JOptionPane.WARNING_MESSAGE);
+                    atualizaTabelaCliente();
+                    
+                }else{
+                JOptionPane.showMessageDialog(null, "Busca Completa!","", JOptionPane.WARNING_MESSAGE);   
+                atualizaTabelaBusca();
+                
+                }
+            }catch(SQLException ex){
+                JOptionPane.showMessageDialog(null, "Erro: "+ex.getMessage(), "erro", JOptionPane.WARNING_MESSAGE);
+            }
+            
+        }
+    }//GEN-LAST:event_btnBuscaMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

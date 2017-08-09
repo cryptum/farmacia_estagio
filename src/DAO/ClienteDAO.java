@@ -98,4 +98,35 @@ public class ClienteDAO {
         pst.close();
         return clienteM;
     }
+    
+    public List<ClienteM> buscaCliente(String Nome) throws SQLException{
+        List<ClienteM> clienteM = new ArrayList<ClienteM>();
+        
+        int cont = 0;
+        String name = "%"+Nome+"%";
+        
+        sql = "select * from cliente where nome like ? order by nome";
+        pst = Conexao.getInstance().prepareStatement(sql);
+        pst.setString(1, name);
+        ResultSet rs = pst.executeQuery();
+        while(rs.next()){
+           clienteM.add(new ClienteM(
+                            rs.getInt("id"),
+                            rs.getString("nome"),
+                            rs.getString("endereco"),
+                            rs.getString("numero"),
+                            rs.getString("bairro"),
+                            rs.getString("telefone"),
+                            rs.getString("data_nascimento")));  
+           cont ++;
+        }
+        if(cont == 0){
+            return null;
+        }
+            
+        pst.execute();
+        pst.close();                           
+        
+        return clienteM;
+    }
 }
