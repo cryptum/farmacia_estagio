@@ -17,7 +17,7 @@ import MODEL.*;
  * @author NUPSI 04
  */
 public class AssistenciaDAO {
-    
+    ClienteDAO clientedao = new ClienteDAO();
     PreparedStatement pst;
     String sql;
     
@@ -29,16 +29,16 @@ public class AssistenciaDAO {
         pst = Conexao.getInstance().prepareStatement(sql);
         pst.setString(1, Nome);
         ResultSet rs = pst.executeQuery();
-        /*while(rs.next()){
+        while(rs.next()){
            assistenciaM.add(new AssistenciaM(
                    rs.getInt("id"),
-                   rs.getInt("Cliente_id"),
+                   clientedao.busca(rs.getInt("Cliente_id")),
                    rs.getString("medicamento"),
                    rs.getString("data_atendimento"),
                    rs.getString("quadro_acontecimento"),
                    rs.getString("atendente")));  
            cont ++;
-        }*/
+        }
         if(cont == 0){
             return null;
         }
