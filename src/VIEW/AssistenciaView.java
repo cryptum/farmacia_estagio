@@ -111,15 +111,15 @@ public class AssistenciaView extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 451, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(txtBusca)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnBusca)
-                        .addGap(26, 26, 26)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(txtBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnBusca)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -131,7 +131,7 @@ public class AssistenciaView extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtBusca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBusca))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 505, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -315,7 +315,7 @@ public class AssistenciaView extends javax.swing.JInternalFrame {
                 dados[i][3] = assistencia.getAtendente();
                 i++;
             }
-            String tituloColuna[] = {"ID", "Nome", "Endereço"};
+            String tituloColuna[] = {"ID", "Nome", "Medicamento","atendente"};
             DefaultTableModel tabelaCliente = new DefaultTableModel();
             tabelaCliente.setDataVector(dados, tituloColuna);
             tblAssistencia.setModel(new DefaultTableModel(dados, tituloColuna) {
@@ -339,7 +339,14 @@ public class AssistenciaView extends javax.swing.JInternalFrame {
             tblAssistencia.updateUI();
     }
     private void btnNovoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNovoMouseClicked
-    NewJFrame assis_cliente = new NewJFrame();
+    assistencia = new AssistenciaM();
+    assistencia.setId(0);
+    assistencia.setNome_cliente(Integer.valueOf(tblCliente.getValueAt(tblCliente.getSelectedRow(),0).toString()));
+    assistencia.setMedicamento(title);
+    assistencia.setData_atendimento(title);
+    assistencia.setQuadro_acontecido(TITLE_PROPERTY);
+    assistencia.setAtendente(title);
+    NewJFrame assis_cliente = new NewJFrame(assistencia);
     this.setVisible(false);
 
     }//GEN-LAST:event_btnNovoMouseClicked

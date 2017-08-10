@@ -11,13 +11,13 @@ package MODEL;
  */
 public class AssistenciaM {
     private int id;
-    private ClienteM nome_cliente;
+    private int nome_cliente;
     private String medicamento;
     private String data_atendimento;
     private String quadro_acontecido;
     private String atendente;
 
-    public AssistenciaM(int id, ClienteM nome_cliente, String medicamento, String data_atendimento, String quadro_acontecido, String atendente) {
+    public AssistenciaM(int id, int nome_cliente, String medicamento, String data_atendimento, String quadro_acontecido, String atendente) {
         this.id = id;
         this.nome_cliente = nome_cliente;
         this.medicamento = medicamento;
@@ -37,11 +37,11 @@ public class AssistenciaM {
         this.id = id;
     }
 
-    public ClienteM getNome_cliente() {
+    public int getNome_cliente() {
         return nome_cliente;
     }
 
-    public void setNome_cliente(ClienteM nome_cliente) {
+    public void setNome_cliente(int nome_cliente) {
         this.nome_cliente = nome_cliente;
     }
 
