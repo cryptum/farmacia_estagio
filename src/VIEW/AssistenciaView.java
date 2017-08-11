@@ -340,13 +340,8 @@ public class AssistenciaView extends javax.swing.JInternalFrame {
     }
     private void btnNovoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNovoMouseClicked
     assistencia = new AssistenciaM();
-    assistencia.setId(0);
-    assistencia.setNome_cliente(Integer.valueOf(tblCliente.getValueAt(tblCliente.getSelectedRow(),0).toString()));
-    assistencia.setMedicamento(title);
-    assistencia.setData_atendimento(title);
-    assistencia.setQuadro_acontecido(TITLE_PROPERTY);
-    assistencia.setAtendente(title);
-    NewJFrame assis_cliente = new NewJFrame(assistencia);
+
+    NewJFrame assis_cliente = new NewJFrame(Integer.valueOf(tblCliente.getValueAt(tblCliente.getSelectedRow(),0).toString()));
     this.setVisible(false);
 
     }//GEN-LAST:event_btnNovoMouseClicked
@@ -359,10 +354,12 @@ public class AssistenciaView extends javax.swing.JInternalFrame {
             listaassistencia = assistenciadao.buscaAssistencia(tblCliente.getValueAt(tblCliente.getSelectedRow(), 0).toString());
             if(listaassistencia == null){
 
-                JOptionPane.showMessageDialog(null, "Nenhum contato encontrado!","", JOptionPane.WARNING_MESSAGE);
-
+            tblAssistencia.setValueAt("vazio", 0, 0);
+            tblAssistencia.setValueAt("vazio", 0, 1);
+            tblAssistencia.setValueAt("vazio", 0, 2);
+            tblAssistencia.setValueAt("vazio", 0, 3);
             }else{
-
+                
             atualizaTabelaAssistencia();
 
             }

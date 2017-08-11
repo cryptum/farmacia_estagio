@@ -352,7 +352,7 @@ public class ClienteView extends javax.swing.JInternalFrame {
             cliente.setData_nascimento(txtData_nascimento.getText());
             
             try {
-                clientedao.salvar(cliente);
+                clientedao.Alterar(cliente);
             } catch (SQLException ex) {
                 Logger.getLogger(ClienteView.class.getName()).log(Level.SEVERE, null, ex);
             }

@@ -24,13 +24,14 @@ public class NewJFrame extends javax.swing.JFrame {
     AssistenciaM assistencia;
     AssistenciaDAO assistenciadao;
     List<AssistenciaM> listaassistencia;
-    public NewJFrame(AssistenciaM Assistencia) {
-        assistenciadao = new AssistenciaDAO();
-        listaassistencia = new ArrayList<>();
+    
+    public NewJFrame(int aux) throws SQLException {
         initComponents();
         this.setVisible(true);
         this.setLocationRelativeTo(null);
-        limpaCampos();
+        assistenciadao = new AssistenciaDAO();
+        listaassistencia = new ArrayList<>();
+        Setdados(aux);
     }
 
     @SuppressWarnings("unchecked")
@@ -197,7 +198,7 @@ public class NewJFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalvarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalvarMouseClicked
-     /*assistencia = new AssistenciaM();
+    assistencia = new AssistenciaM();
         if(txtNome.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Preencha todos os campos");
             txtNome.requestFocusInWindow();
@@ -214,30 +215,25 @@ public class NewJFrame extends javax.swing.JFrame {
                 Logger.getLogger(ClienteView.class.getName()).log(Level.SEVERE, null, ex);
             }
             JOptionPane.showMessageDialog(null, "Gravado com Sucesso.");
-            atualizaTabelaCliente();
-            preparaSalvareCancelar();
             desativaCampos();
             limpaCampos();
         }else{
-            cliente.setId(Integer.parseInt(txtId.getText()));
-            cliente.setNome(txtNome.getText());
-            cliente.setEndereco(txtEndereco.getText());
-            cliente.setNumero(txtNumero.getText());
-            cliente.setBairro(txtBairro.getText());
-            cliente.setTelefone(txtTelefone.getText());
-            cliente.setData_nascimento(txtData_nascimento.getText());
+            assistencia.setId(Integer.parseInt(txtId.getText()));
+            assistencia.setNome_cliente(Integer.valueOf(txtNome.getText()));
+            assistencia.setMedicamento(txtMedicamento.getText());
+            assistencia.setData_atendimento(txtDataAtendimento.getText());
+            assistencia.setQuadro_acontecido(txtQuadroOcorrido.getText());
+            assistencia.setAtendente(txtAtendente.getText());
             
             try {
-                clientedao.salvar(cliente);
+                assistenciadao.Alterar(assistencia);
             } catch (SQLException ex) {
                 Logger.getLogger(ClienteView.class.getName()).log(Level.SEVERE, null, ex);
             }
             JOptionPane.showMessageDialog(null, "Gravado com Sucesso.");
-            atualizaTabelaCliente();
-            preparaSalvareCancelar();
             desativaCampos();
             
-        }*/
+        }
     }//GEN-LAST:event_btnSalvarMouseClicked
 
     public static DefaultFormatterFactory setFormatoData(){  
@@ -252,7 +248,9 @@ public class NewJFrame extends javax.swing.JFrame {
         return factory;  
     }
     
-    
+    public void Setdados(int Ncliente) throws SQLException{
+        assistenciadao.busca(Ncliente);
+    }
     
     public void limpaCampos(){
         txtAtendente.setText("");

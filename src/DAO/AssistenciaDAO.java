@@ -74,25 +74,15 @@ public class AssistenciaDAO {
         return listaassistencia;
     }
     
-    public AssistenciaM busca(int id) throws SQLException{
+    public ResultSet busca(int id) throws SQLException{
         AssistenciaM assistenciam = null;
-
-        sql = "select * from assistencia where id = ?";
+        
+        sql = "select Nome_cliente from assistencia where id = ?";
         pst = Conexao.getInstance().prepareStatement(sql);
         pst.setInt(1, id);
         ResultSet rs = pst.executeQuery();
-        while(rs.next()){
-           assistenciam = new AssistenciaM(
-                            rs.getInt("id"),
-                            rs.getInt("Cliente_id"),
-                            rs.getString("medicamento"),
-                            rs.getString("data_atencimento"),
-                            rs.getString("quadro_acontecimento"),
-                            rs.getString("atendente"));
-                   
-        }
         pst.close();
-        return assistenciam;
+        return rs;
     }
     public List<AssistenciaM> buscaAssistencia(String Nome) throws SQLException{
         List<AssistenciaM> assistenciaM = new ArrayList<AssistenciaM>();
