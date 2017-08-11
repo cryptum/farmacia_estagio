@@ -79,15 +79,20 @@ public class AssistenciaView extends javax.swing.JInternalFrame {
         tblCliente.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         tblCliente.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2"
+                "ID", "Nome", "Endereço"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, true, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tblCliente.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblClienteMouseClicked(evt);
@@ -146,13 +151,10 @@ public class AssistenciaView extends javax.swing.JInternalFrame {
         tblAssistencia.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         tblAssistencia.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2"
+                "ID", "Endereço", "Quadro", "Data"
             }
         ));
         jScrollPane2.setViewportView(tblAssistencia);
@@ -311,11 +313,11 @@ public class AssistenciaView extends javax.swing.JInternalFrame {
             for (AssistenciaM assistencia : listaassistencia) {
                 dados[i][0] = String.valueOf(assistencia.getId());
                 dados[i][1] = String.valueOf(assistencia.getNome_cliente());
-                dados[i][2] = assistencia.getMedicamento();
-                dados[i][3] = assistencia.getAtendente();
+                dados[i][2] = assistencia.getQuadro_acontecido();
+                dados[i][3] = assistencia.getData_atendimento();
                 i++;
             }
-            String tituloColuna[] = {"ID", "Nome", "Medicamento","atendente"};
+            String tituloColuna[] = {"ID", "Nome", "Quadro","Data"};
             DefaultTableModel tabelaCliente = new DefaultTableModel();
             tabelaCliente.setDataVector(dados, tituloColuna);
             tblAssistencia.setModel(new DefaultTableModel(dados, tituloColuna) {
@@ -341,23 +343,22 @@ public class AssistenciaView extends javax.swing.JInternalFrame {
     private void btnNovoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNovoMouseClicked
     assistencia = new AssistenciaM();
 
-    NewJFrame assis_cliente = new NewJFrame(Integer.valueOf(tblCliente.getValueAt(tblCliente.getSelectedRow(),0).toString()));
+    NewJFrame assis_cliente = new NewJFrame(Integer.valueOf(tblCliente.getValueAt(tblCliente.getSelectedRow(),0).toString()),tblCliente.getValueAt(tblCliente.getSelectedRow(),1).toString());
     this.setVisible(false);
-
     }//GEN-LAST:event_btnNovoMouseClicked
 
     private void tblClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClienteMouseClicked
     listaassistencia = null;
-    
         try{
 
             listaassistencia = assistenciadao.buscaAssistencia(tblCliente.getValueAt(tblCliente.getSelectedRow(), 0).toString());
             if(listaassistencia == null){
-
-            tblAssistencia.setValueAt("vazio", 0, 0);
-            tblAssistencia.setValueAt("vazio", 0, 1);
-            tblAssistencia.setValueAt("vazio", 0, 2);
-            tblAssistencia.setValueAt("vazio", 0, 3);
+                for(int i = 0; i <= 10;i++){
+                tblAssistencia.setValueAt("0", i, 0);
+                tblAssistencia.setValueAt("Não Contém Assistencias", i, 1);
+                tblAssistencia.setValueAt("Não Contém Assistencias", i, 2);
+                tblAssistencia.setValueAt("Não Contém Assistencias", i, 3);
+                }
             }else{
                 
             atualizaTabelaAssistencia();
