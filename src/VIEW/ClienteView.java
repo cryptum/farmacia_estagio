@@ -7,7 +7,11 @@ package VIEW;
 
 import DAO.ClienteDAO;
 import MODEL.ClienteM;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.net.URL;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -18,6 +22,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
+import util.LimiteDigitos;
 
 /**
  *
@@ -38,6 +43,12 @@ public class ClienteView extends javax.swing.JInternalFrame {
         desativaCampos();
         preparaSalvareCancelar();
         aberturaJFrame();
+        txtNome.setDocument(new LimiteDigitos(50));
+        txtEndereco.setDocument(new LimiteDigitos(45));
+        txtNumero.setDocument(new LimiteDigitos(20));
+        txtBairro.setDocument(new LimiteDigitos(45));
+        txtTelefone.setDocument(new LimiteDigitos(20));
+        txtData_nascimento.setDocument(new LimiteDigitos(10));
     }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -59,13 +70,14 @@ public class ClienteView extends javax.swing.JInternalFrame {
         jLabel11 = new javax.swing.JLabel();
         txtBairro = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        txtTelefone = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblCliente = new javax.swing.JTable();
         txtData_nascimento = new javax.swing.JFormattedTextField();
+        txtTelefone = new javax.swing.JFormattedTextField();
 
         setClosable(true);
+        setTitle("Cadastro De Cliente");
 
         btnSalvar.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/VIEW/imagem/Salvar.png"))); // NOI18N
@@ -126,9 +138,9 @@ public class ClienteView extends javax.swing.JInternalFrame {
         jLabel2.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         jLabel2.setText("Nome");
 
-        txtNome.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
+        txtNome.setFont(new java.awt.Font("Trebuchet MS", 0, 15)); // NOI18N
 
-        txtNumero.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
+        txtNumero.setFont(new java.awt.Font("Trebuchet MS", 0, 15)); // NOI18N
 
         jLabel12.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         jLabel12.setText("Numero");
@@ -136,17 +148,15 @@ public class ClienteView extends javax.swing.JInternalFrame {
         jLabel3.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         jLabel3.setText("Endereço");
 
-        txtEndereco.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
+        txtEndereco.setFont(new java.awt.Font("Trebuchet MS", 0, 15)); // NOI18N
 
         jLabel11.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         jLabel11.setText("Bairro");
 
-        txtBairro.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
+        txtBairro.setFont(new java.awt.Font("Trebuchet MS", 0, 15)); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         jLabel4.setText("Telefone");
-
-        txtTelefone.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
 
         jLabel5.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         jLabel5.setText("Data Nascimento");
@@ -168,7 +178,10 @@ public class ClienteView extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(tblCliente);
 
         txtData_nascimento.setFormatterFactory(setFormatoData());
-        txtData_nascimento.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
+        txtData_nascimento.setFont(new java.awt.Font("Trebuchet MS", 0, 15)); // NOI18N
+
+        txtTelefone.setFormatterFactory(setFormatoTelefone());
+        txtTelefone.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
 
         javax.swing.GroupLayout PanelInicialLayout = new javax.swing.GroupLayout(PanelInicial);
         PanelInicial.setLayout(PanelInicialLayout);
@@ -178,7 +191,6 @@ public class ClienteView extends javax.swing.JInternalFrame {
                 .addGap(46, 46, 46)
                 .addGroup(PanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
-                    .addComponent(txtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
                     .addGroup(PanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(txtBairro)
@@ -199,7 +211,8 @@ public class ClienteView extends javax.swing.JInternalFrame {
                     .addGroup(PanelInicialLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(txtData_nascimento, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 643, Short.MAX_VALUE)
                 .addContainerGap())
@@ -232,9 +245,9 @@ public class ClienteView extends javax.swing.JInternalFrame {
                         .addComponent(txtBairro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(15, 15, 15)
                         .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(12, 12, 12)
                         .addComponent(txtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(15, 15, 15)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtData_nascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -264,14 +277,14 @@ public class ClienteView extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(PanelInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnNovo)
                     .addComponent(btnSalvar)
                     .addComponent(btnAlterar)
                     .addComponent(btnExcluir)
                     .addComponent(btnCancelar))
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         pack();
@@ -285,24 +298,22 @@ public class ClienteView extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "Erro: "+ex.getMessage(), "erro", JOptionPane.WARNING_MESSAGE);
         }
         
-        String dados[][] = new String[listaclientes.size()][7];
+        String dados[][] = new String[listaclientes.size()][5];
             int i = 0;
             for (ClienteM cliente : listaclientes) {
                 dados[i][0] = String.valueOf(cliente.getId());
                 dados[i][1] = cliente.getNome();
-                dados[i][2] = cliente.getEndereco();
-                dados[i][3] = cliente.getNumero();
-                dados[i][4] = cliente.getBairro();
-                dados[i][5] = cliente.getTelefone();
-                dados[i][6] = cliente.getData_nascimento();
+                dados[i][2] = cliente.getEndereco()+" Nº"+cliente.getNumero();
+                dados[i][3] = cliente.getTelefone();
+                dados[i][4] = cliente.getData_nascimento();
                 i++;
             }
-            String tituloColuna[] = {"ID", "Nome", "Endereço","Numero", "Bairro", "Telefone","Nascimento"};
+            String tituloColuna[] = {"ID", "Nome", "Endereço", "Telefone","Nascimento"};
             DefaultTableModel tabelaCliente = new DefaultTableModel();
             tabelaCliente.setDataVector(dados, tituloColuna);
             tblCliente.setModel(new DefaultTableModel(dados, tituloColuna) {
                 boolean[] canEdit = new boolean[]{
-                    false, false, false, false, false, false,false
+                    false, false, false, false, false
                 };
 
                 public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -317,8 +328,8 @@ public class ClienteView extends javax.swing.JInternalFrame {
             DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
             centralizado.setHorizontalAlignment(SwingConstants.CENTER);
             tblCliente.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+            tblCliente.getColumnModel().getColumn(3).setCellRenderer(centralizado);
             tblCliente.getColumnModel().getColumn(4).setCellRenderer(centralizado);
-            tblCliente.getColumnModel().getColumn(5).setCellRenderer(centralizado);
             tblCliente.setRowHeight(25);
             tblCliente.updateUI();
     }
@@ -435,14 +446,26 @@ public class ClienteView extends javax.swing.JInternalFrame {
        tblCliente.clearSelection(); 
     }//GEN-LAST:event_PanelInicialMouseClicked
 
-        public static DefaultFormatterFactory setFormatoData(){  
+    public static DefaultFormatterFactory setFormatoData(){  
         MaskFormatter comFoco = null;  
         try   
         {   
             comFoco = new MaskFormatter("##/##/####"); 
             comFoco.setPlaceholderCharacter('_');
         }   
-        catch (Exception pe) { }  
+        catch (ParseException ex) { }  
+        DefaultFormatterFactory factory = new DefaultFormatterFactory(comFoco, comFoco);  
+        return factory;  
+    }
+            
+    public static DefaultFormatterFactory setFormatoTelefone(){  
+        MaskFormatter comFoco = null;  
+        try   
+        {   
+            comFoco = new MaskFormatter("(##)####-####"); 
+            comFoco.setPlaceholderCharacter('_');
+        }   
+        catch (ParseException ex) { }  
         DefaultFormatterFactory factory = new DefaultFormatterFactory(comFoco, comFoco);  
         return factory;  
     }
@@ -453,8 +476,8 @@ public class ClienteView extends javax.swing.JInternalFrame {
         txtEndereco.setText("");
         txtNumero.setText("");
         txtBairro.setText("");
-        txtTelefone.setText("");
-        txtData_nascimento.setText("");
+        txtTelefone.setValue("");
+        txtData_nascimento.setValue("");
     }
     
     public void ativaCampos(){
@@ -539,6 +562,6 @@ public class ClienteView extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtNome;
     private javax.swing.JTextField txtNumero;
-    private javax.swing.JTextField txtTelefone;
+    private javax.swing.JFormattedTextField txtTelefone;
     // End of variables declaration//GEN-END:variables
 }

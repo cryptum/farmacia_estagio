@@ -38,9 +38,9 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `FarmaciaAlex`.`Assistencia` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `Cliente_id` INT NOT NULL,
-  `medicamento` VARCHAR(90) NULL,
-  `data_atendimento` VARCHAR(20) NULL,
-  `quadro_acontecimento` VARCHAR(150) NULL,
+  `medicamento` VARCHAR(200) NULL,
+  `data_atendimento` VARCHAR(10) NULL,
+  `quadro_acontecimento` VARCHAR(200) NULL,
   `atendente` VARCHAR(50) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_assistencia_Cliente_idx` (`Cliente_id` ASC),
@@ -51,6 +51,20 @@ CREATE TABLE IF NOT EXISTS `FarmaciaAlex`.`Assistencia` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+
+-- -----------------------------------------------------
+-- Table `FarmaciaAlex`.`Vazio`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `FarmaciaAlex`.`Vazio` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `Cliente_id` INT NOT NULL,
+  `medicamento` VARCHAR(16) NULL,
+  `data_atendimento` VARCHAR(16) NULL,
+  `quadro_acontecimento` VARCHAR(16) NULL,
+  `atendente` VARCHAR(16) NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+Insert into Vazio values(1,1,"Sem Assistencia","Sem Assistencia","Sem Assistencia","Sem Assistencia");
 
 -- -----------------------------------------------------
 -- Table `FarmaciaAlex`.`Usuario`

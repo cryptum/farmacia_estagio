@@ -7,13 +7,20 @@ package VIEW;
 
 import DAO.*;
 import MODEL.*;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import util.LimiteDigitos;
 
 /**
  *
@@ -38,6 +45,9 @@ public class AssistenciaView extends javax.swing.JInternalFrame {
         initComponents();
         this.setVisible(true);
         atualizaTabelaCliente();
+        btnAlterar.setEnabled(false);
+        btnExcluir.setEnabled(false);
+        txtBusca.setDocument(new LimiteDigitos(90));
     }
 
     /**
@@ -63,6 +73,7 @@ public class AssistenciaView extends javax.swing.JInternalFrame {
         btnExcluir = new javax.swing.JLabel();
 
         setClosable(true);
+        setTitle("Assistências");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
         jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -74,7 +85,12 @@ public class AssistenciaView extends javax.swing.JInternalFrame {
         jLabel1.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         jLabel1.setText("Busca Cliente");
 
-        txtBusca.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
+        txtBusca.setFont(new java.awt.Font("Trebuchet MS", 0, 15)); // NOI18N
+        txtBusca.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtBuscaKeyPressed(evt);
+            }
+        });
 
         tblCliente.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         tblCliente.setModel(new javax.swing.table.DefaultTableModel(
@@ -154,10 +170,20 @@ public class AssistenciaView extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "ID", "Endereço", "Quadro", "Data"
+                "ID", "Quadro", "Data"
             }
         ));
+        tblAssistencia.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblAssistenciaMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tblAssistencia);
+        if (tblAssistencia.getColumnModel().getColumnCount() > 0) {
+            tblAssistencia.getColumnModel().getColumn(0).setPreferredWidth(10);
+            tblAssistencia.getColumnModel().getColumn(1).setPreferredWidth(200);
+            tblAssistencia.getColumnModel().getColumn(2).setPreferredWidth(100);
+        }
 
         btnNovo.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         btnNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/VIEW/imagem/Novo.png"))); // NOI18N
@@ -171,29 +197,39 @@ public class AssistenciaView extends javax.swing.JInternalFrame {
         btnAlterar.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         btnAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/VIEW/imagem/Alterar.png"))); // NOI18N
         btnAlterar.setText("Alterar");
+        btnAlterar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAlterarMouseClicked(evt);
+            }
+        });
 
         btnExcluir.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         btnExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/VIEW/imagem/Excluir.png"))); // NOI18N
         btnExcluir.setText("Excluir");
+        btnExcluir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnExcluirMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addContainerGap())
+                        .addContainerGap()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
+                        .addGap(64, 64, 64)
                         .addComponent(btnNovo)
-                        .addGap(88, 88, 88)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnAlterar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 84, Short.MAX_VALUE)
+                        .addGap(78, 78, 78)
                         .addComponent(btnExcluir)
-                        .addGap(62, 62, 62))))
+                        .addGap(33, 33, 33)))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -308,21 +344,20 @@ public class AssistenciaView extends javax.swing.JInternalFrame {
     
     public void atualizaTabelaAssistencia(){
         
-        String dados[][] = new String[listaassistencia.size()][4];
+        String dados[][] = new String[listaassistencia.size()][3];
             int i = 0;
             for (AssistenciaM assistencia : listaassistencia) {
                 dados[i][0] = String.valueOf(assistencia.getId());
-                dados[i][1] = String.valueOf(assistencia.getNome_cliente());
-                dados[i][2] = assistencia.getQuadro_acontecido();
-                dados[i][3] = assistencia.getData_atendimento();
+                dados[i][1] = assistencia.getQuadro_acontecido();
+                dados[i][2] = assistencia.getData_atendimento();
                 i++;
             }
-            String tituloColuna[] = {"ID", "Nome", "Quadro","Data"};
+            String tituloColuna[] = {"ID", "Quadro","Data"};
             DefaultTableModel tabelaCliente = new DefaultTableModel();
             tabelaCliente.setDataVector(dados, tituloColuna);
             tblAssistencia.setModel(new DefaultTableModel(dados, tituloColuna) {
                 boolean[] canEdit = new boolean[]{
-                    false, false, false,false
+                    false, false, false
                 };
 
                 public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -337,14 +372,15 @@ public class AssistenciaView extends javax.swing.JInternalFrame {
             DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
             centralizado.setHorizontalAlignment(SwingConstants.CENTER);
             tblAssistencia.getColumnModel().getColumn(0).setCellRenderer(centralizado);
+            tblAssistencia.getColumnModel().getColumn(2).setCellRenderer(centralizado);
             tblAssistencia.setRowHeight(25);
             tblAssistencia.updateUI();
     }
     private void btnNovoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNovoMouseClicked
     assistencia = new AssistenciaM();
 
-    NewJFrame assis_cliente = new NewJFrame(Integer.valueOf(tblCliente.getValueAt(tblCliente.getSelectedRow(),0).toString()),tblCliente.getValueAt(tblCliente.getSelectedRow(),1).toString());
-    this.setVisible(false);
+    Assistencia_ClienteView assis_cliente = new Assistencia_ClienteView(Integer.valueOf(tblCliente.getValueAt(tblCliente.getSelectedRow(),0).toString()),tblCliente.getValueAt(tblCliente.getSelectedRow(),1).toString(), 1);
+    this.dispose();
     }//GEN-LAST:event_btnNovoMouseClicked
 
     private void tblClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClienteMouseClicked
@@ -353,16 +389,14 @@ public class AssistenciaView extends javax.swing.JInternalFrame {
 
             listaassistencia = assistenciadao.buscaAssistencia(tblCliente.getValueAt(tblCliente.getSelectedRow(), 0).toString());
             if(listaassistencia == null){
-                for(int i = 0; i <= 10;i++){
-                tblAssistencia.setValueAt("0", i, 0);
-                tblAssistencia.setValueAt("Não Contém Assistencias", i, 1);
-                tblAssistencia.setValueAt("Não Contém Assistencias", i, 2);
-                tblAssistencia.setValueAt("Não Contém Assistencias", i, 3);
-                }
+                listaassistencia = assistenciadao.buscaListaVazia();
+                btnAlterar.setEnabled(false);
+                btnExcluir.setEnabled(false);
+                atualizaTabelaAssistencia();
             }else{
-                
             atualizaTabelaAssistencia();
-
+            btnAlterar.setEnabled(false);
+            btnExcluir.setEnabled(false);
             }
         }catch(SQLException ex){
             JOptionPane.showMessageDialog(null, "Erro: "+ex.getMessage(), "erro", JOptionPane.WARNING_MESSAGE);
@@ -375,6 +409,8 @@ public class AssistenciaView extends javax.swing.JInternalFrame {
 
     private void jPanel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MouseClicked
         tblAssistencia.clearSelection();
+        btnAlterar.setEnabled(false);
+        btnExcluir.setEnabled(false);
     }//GEN-LAST:event_jPanel2MouseClicked
 
     private void btnBuscaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscaMouseClicked
@@ -394,8 +430,7 @@ public class AssistenciaView extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null, "Nenhum contato encontrado!","", JOptionPane.WARNING_MESSAGE);
                     atualizaTabelaCliente();
                     
-                }else{
-                JOptionPane.showMessageDialog(null, "Busca Completa!","", JOptionPane.WARNING_MESSAGE);   
+                }else{  
                 atualizaTabelaBusca();
                 
                 }
@@ -405,6 +440,66 @@ public class AssistenciaView extends javax.swing.JInternalFrame {
             
         }
     }//GEN-LAST:event_btnBuscaMouseClicked
+
+    private void btnExcluirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExcluirMouseClicked
+            assistencia = new AssistenciaM();
+            assistencia.setId(Integer.valueOf(tblAssistencia.getValueAt(tblAssistencia.getSelectedRow(), 0).toString()));
+            int confirma = JOptionPane.showConfirmDialog(null, "Deseja Excluir:"
+                    +"\n Cliente: "+tblCliente.getValueAt(tblCliente.getSelectedRow(), 1).toString()
+                    +"\n Data: "+tblAssistencia.getValueAt(tblAssistencia.getSelectedRow(), 2).toString());
+            if(confirma == 0){
+                
+                try {
+                    assistenciadao.excluir(assistencia);
+                    listaassistencia = assistenciadao.buscaAssistencia(tblCliente.getValueAt(tblCliente.getSelectedRow(), 0).toString());
+                } catch (SQLException ex) {
+                    Logger.getLogger(ClienteView.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                atualizaTabelaAssistencia();
+            }
+    }//GEN-LAST:event_btnExcluirMouseClicked
+
+    private void btnAlterarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAlterarMouseClicked
+    assistencia = new AssistenciaM();
+
+    Assistencia_ClienteView assis_cliente = new Assistencia_ClienteView(Integer.valueOf(tblAssistencia.getValueAt(tblAssistencia.getSelectedRow(),0).toString()),tblCliente.getValueAt(tblCliente.getSelectedRow(),1).toString(), 2);
+    this.dispose();
+    }//GEN-LAST:event_btnAlterarMouseClicked
+
+    private void txtBuscaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscaKeyPressed
+    if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+        listaclientes = null;
+        if(txtBusca.getText().equals("") )
+        {
+            JOptionPane.showMessageDialog(null, "Preencha o campo corretamente! ", "erro", JOptionPane.WARNING_MESSAGE);
+            atualizaTabelaCliente();
+        }
+        else
+        {
+            try{
+                
+                listaclientes = clientedao.buscaCliente(txtBusca.getText());
+                if(listaclientes == null){
+                    
+                    JOptionPane.showMessageDialog(null, "Nenhum contato encontrado!","", JOptionPane.WARNING_MESSAGE);
+                    atualizaTabelaCliente();
+                    
+                }else{  
+                atualizaTabelaBusca();
+                
+                }
+            }catch(SQLException ex){
+                JOptionPane.showMessageDialog(null, "Erro: "+ex.getMessage(), "erro", JOptionPane.WARNING_MESSAGE);
+            }
+            
+        }
+    }  
+    }//GEN-LAST:event_txtBuscaKeyPressed
+
+    private void tblAssistenciaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAssistenciaMouseClicked
+        btnAlterar.setEnabled(true);
+        btnExcluir.setEnabled(true);
+    }//GEN-LAST:event_tblAssistenciaMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -6,27 +6,33 @@
 package VIEW;
 import DAO.AssistenciaDAO;
 import MODEL.*;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.net.URL;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.text.DefaultFormatterFactory;
-import javax.swing.text.MaskFormatter;
+import util.LimiteDigitos;
+
 
 /**
  *
  * @author DANILO
  */
-public class NewJFrame extends javax.swing.JFrame {
+public class Assistencia_ClienteView extends javax.swing.JFrame {
 
     AssistenciaM assistencia;
     AssistenciaDAO assistenciadao;
     List<AssistenciaM> listaassistencia;
     int NumeroCliente;
     String NomeCliente;
-    public NewJFrame(int Numero1, String Nome1){
+    int Valor;
+    public Assistencia_ClienteView(int Numero1, String Nome1, int Tipo1){
         initComponents();
         this.setVisible(true);
         this.setLocationRelativeTo(null);
@@ -34,7 +40,14 @@ public class NewJFrame extends javax.swing.JFrame {
         listaassistencia = new ArrayList<>();
         NumeroCliente = Numero1;
         NomeCliente = Nome1;
+        Valor = Tipo1;
         Setdados();
+        desativaCampos();
+        txtAtendente.setDocument(new LimiteDigitos(50));
+        
+        URL url = this.getClass().getResource("/VIEW/imagem/Icone.jpg");
+        Image imagemTitulo = Toolkit.getDefaultToolkit().getImage(url);
+        this.setIconImage(imagemTitulo);
     }
 
     @SuppressWarnings("unchecked")
@@ -42,9 +55,9 @@ public class NewJFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jFormattedTextField1 = new javax.swing.JFormattedTextField();
-        jLabel1 = new javax.swing.JLabel();
+        IDassistencia = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        txtId = new javax.swing.JTextField();
+        txtIdassistencia = new javax.swing.JTextField();
         txtAtendente = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         btnSalvar = new javax.swing.JLabel();
@@ -61,25 +74,23 @@ public class NewJFrame extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         txtQuadroOcorrido = new javax.swing.JTextPane();
         jLabel3 = new javax.swing.JLabel();
+        txtIdCliente = new javax.swing.JTextField();
+        IDCliente = new javax.swing.JLabel();
 
         jFormattedTextField1.setText("jFormattedTextField1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Cadastro Assistências");
 
-        jLabel1.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
-        jLabel1.setText("ID");
+        IDassistencia.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
+        IDassistencia.setText("ID");
 
         jLabel6.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         jLabel6.setText("Atendente");
 
-        txtId.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
+        txtIdassistencia.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
 
-        txtAtendente.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
-        txtAtendente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtAtendenteActionPerformed(evt);
-            }
-        });
+        txtAtendente.setFont(new java.awt.Font("Trebuchet MS", 0, 15)); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         jLabel2.setText("Nome do Cliente");
@@ -93,20 +104,20 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         });
 
-        txtNome.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
-        txtNome.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNomeActionPerformed(evt);
-            }
-        });
+        txtNome.setFont(new java.awt.Font("Trebuchet MS", 0, 15)); // NOI18N
 
         btnCancelar.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/VIEW/imagem/Cancelar.png"))); // NOI18N
         btnCancelar.setText("Cancelar");
+        btnCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCancelarMouseClicked(evt);
+            }
+        });
 
         jLabel8.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/VIEW/imagem/Novo.png"))); // NOI18N
-        jLabel8.setText("Voltar");
+        jLabel8.setText("Limpar");
         jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel8MouseClicked(evt);
@@ -116,16 +127,12 @@ public class NewJFrame extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
         jLabel4.setText("Data atendimento");
 
-        txtDataAtendimento.setFormatterFactory(setFormatoData());
-        txtDataAtendimento.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
-        txtDataAtendimento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDataAtendimentoActionPerformed(evt);
-            }
-        });
+        txtDataAtendimento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
+        txtDataAtendimento.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
 
-        jPanel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 255, 255), 1, true));
+        jPanel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(10, 154, 193), 1, true));
 
+        txtMedicamento.setFont(new java.awt.Font("Trebuchet MS", 0, 15)); // NOI18N
         jScrollPane2.setViewportView(txtMedicamento);
 
         jLabel5.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
@@ -154,9 +161,9 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 255, 255), 1, true));
+        jPanel2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(10, 154, 193), 1, true));
 
-        txtQuadroOcorrido.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
+        txtQuadroOcorrido.setFont(new java.awt.Font("Trebuchet MS", 0, 15)); // NOI18N
         jScrollPane1.setViewportView(txtQuadroOcorrido);
 
         jLabel3.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
@@ -185,6 +192,11 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        txtIdCliente.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
+
+        IDCliente.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
+        IDCliente.setText("ID");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -204,12 +216,18 @@ public class NewJFrame extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtAtendente, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel6)
                                     .addComponent(jLabel4)
-                                    .addComponent(jLabel2))
+                                    .addComponent(jLabel2)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(IDassistencia)
+                                            .addComponent(txtIdassistencia, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txtIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(IDCliente))))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -228,14 +246,20 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addGap(14, 14, 14)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(6, 6, 6)
-                        .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(IDassistencia)
+                                .addGap(6, 6, 6)
+                                .addComponent(txtIdassistencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(IDCliente)
+                                .addGap(6, 6, 6)
+                                .addComponent(txtIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(21, 21, 21)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(jLabel6)
                         .addGap(6, 6, 6)
                         .addComponent(txtAtendente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -262,11 +286,13 @@ public class NewJFrame extends javax.swing.JFrame {
 
     private void btnSalvarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalvarMouseClicked
     assistencia = new AssistenciaM();
+    int confirma = JOptionPane.showConfirmDialog(null, "Deseja Salvar:");
+        if(confirma == 0){
         if(txtNome.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Preencha todos os campos");
             txtNome.requestFocusInWindow();
-        }else if(txtId.getText().isEmpty()){
-            assistencia.setNome_cliente(Integer.valueOf(txtNome.getText()));
+        }else if(txtIdassistencia.getText().isEmpty()){
+            assistencia.setNome_cliente(Integer.valueOf(txtIdCliente.getText()));
             assistencia.setMedicamento(txtMedicamento.getText());
             assistencia.setData_atendimento(txtDataAtendimento.getText());
             assistencia.setQuadro_acontecido(txtQuadroOcorrido.getText());
@@ -278,11 +304,10 @@ public class NewJFrame extends javax.swing.JFrame {
                 Logger.getLogger(ClienteView.class.getName()).log(Level.SEVERE, null, ex);
             }
             JOptionPane.showMessageDialog(null, "Gravado com Sucesso.");
-            desativaCampos();
-            limpaCampos();
+            desabilitaCampos();
         }else{
-            assistencia.setId(Integer.parseInt(txtId.getText()));
-            assistencia.setNome_cliente(Integer.valueOf(txtNome.getText()));
+            assistencia.setId(Integer.parseInt(txtIdassistencia.getText()));
+            assistencia.setNome_cliente(Integer.valueOf(txtIdCliente.getText()));
             assistencia.setMedicamento(txtMedicamento.getText());
             assistencia.setData_atendimento(txtDataAtendimento.getText());
             assistencia.setQuadro_acontecido(txtQuadroOcorrido.getText());
@@ -294,43 +319,42 @@ public class NewJFrame extends javax.swing.JFrame {
                 Logger.getLogger(ClienteView.class.getName()).log(Level.SEVERE, null, ex);
             }
             JOptionPane.showMessageDialog(null, "Gravado com Sucesso.");
-            desativaCampos();
+            desabilitaCampos();
             
-        }
+        }}
     }//GEN-LAST:event_btnSalvarMouseClicked
 
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
-        JOptionPane.showMessageDialog(null, NumeroCliente);
-        JOptionPane.showMessageDialog(null, NomeCliente);
+        limpaCampos();
     }//GEN-LAST:event_jLabel8MouseClicked
 
-    private void txtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNomeActionPerformed
+    private void btnCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseClicked
+        this.dispose();
+    }//GEN-LAST:event_btnCancelarMouseClicked
 
-    private void txtDataAtendimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDataAtendimentoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtDataAtendimentoActionPerformed
-
-    private void txtAtendenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtAtendenteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtAtendenteActionPerformed
-
-    public static DefaultFormatterFactory setFormatoData(){  
-        MaskFormatter comFoco = null;  
-        try   
-        {   
-            comFoco = new MaskFormatter("##/##/####"); 
-            comFoco.setPlaceholderCharacter('_');
-        }   
-        catch (Exception pe) { }  
-        DefaultFormatterFactory factory = new DefaultFormatterFactory(comFoco, comFoco);  
-        return factory;  
-    }
-    
+ 
     public void Setdados(){
-        txtId.setText(Integer.toString(NumeroCliente));
+        assistencia = new AssistenciaM();
+        if(Valor == 1){
+        txtIdCliente.setText(Integer.toString(NumeroCliente));
         txtNome.setText(NomeCliente);
+        txtDataAtendimento.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date(System.currentTimeMillis())));
+        }else if(Valor == 2){
+            try {
+                assistencia = assistenciadao.busca(NumeroCliente);
+            } catch (SQLException ex) {
+                Logger.getLogger(Assistencia_ClienteView.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            txtIdassistencia.setText(Integer.toString(assistencia.getId()));
+            txtIdCliente.setText(Integer.toString(assistencia.getNome_cliente()));
+            txtNome.setText(NomeCliente);
+            txtMedicamento.setText(assistencia.getMedicamento());
+            txtDataAtendimento.setText(assistencia.getData_atendimento());
+            txtQuadroOcorrido.setText(assistencia.getQuadro_acontecido());
+            txtAtendente.setText(assistencia.getAtendente());
+        }else{
+            JOptionPane.showMessageDialog(null, "Tem algo errado");
+        }
     }
     
     public void limpaCampos(){
@@ -340,27 +364,32 @@ public class NewJFrame extends javax.swing.JFrame {
     }
     
     public void ativaCampos(){
-        txtId.setEnabled(true);
-        txtNome.setEnabled(true);
         txtAtendente.setEnabled(true);
         txtDataAtendimento.setEnabled(true);
         txtMedicamento.setEnabled(true);
         txtQuadroOcorrido.setEnabled(true);
     }
     
-    public void desativaCampos(){
-        txtId.setEnabled(false);
+    public void desabilitaCampos(){
         txtNome.setEnabled(false);
         txtAtendente.setEnabled(false);
-        txtDataAtendimento.setEnabled(false);
         txtMedicamento.setEnabled(false);
         txtQuadroOcorrido.setEnabled(false);
     }
+    
+    public void desativaCampos(){
+        IDassistencia.setVisible(false);
+        txtIdassistencia.setVisible(false);
+        IDCliente.setVisible(false);
+        txtIdCliente.setVisible(false);
+        txtDataAtendimento.setEnabled(false);
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel IDCliente;
+    private javax.swing.JLabel IDassistencia;
     private javax.swing.JLabel btnCancelar;
     private javax.swing.JLabel btnSalvar;
     private javax.swing.JFormattedTextField jFormattedTextField1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -373,7 +402,8 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField txtAtendente;
     private javax.swing.JFormattedTextField txtDataAtendimento;
-    private javax.swing.JTextField txtId;
+    private javax.swing.JTextField txtIdCliente;
+    private javax.swing.JTextField txtIdassistencia;
     private javax.swing.JTextPane txtMedicamento;
     private javax.swing.JTextField txtNome;
     private javax.swing.JTextPane txtQuadroOcorrido;

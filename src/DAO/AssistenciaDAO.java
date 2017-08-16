@@ -22,7 +22,7 @@ public class AssistenciaDAO {
     String sql;
     
     public void salvar (AssistenciaM assistencia) throws SQLException{
-        sql = "insert into cliente values(?,?,?,?,?,?)";
+        sql = "insert into assistencia values(?,?,?,?,?,?)";
         pst = Conexao.getInstance().prepareStatement(sql);
         pst.setInt(1, 0);
         pst.setInt(2, assistencia.getNome_cliente());
@@ -35,7 +35,7 @@ public class AssistenciaDAO {
     }
     
     public void Alterar (AssistenciaM assistencia) throws SQLException{
-        sql = "update assistente set Cliente_id =?, medicamento=?, data_atendimento=?, quadro_acontecimento=?, atendente=? where id=?";
+        sql = "update assistencia set Cliente_id =?, medicamento=?, data_atendimento=?, quadro_acontecimento=?, atendente=? where id=?";
         pst = Conexao.getInstance().prepareStatement(sql);
         pst.setInt(1, assistencia.getNome_cliente());
         pst.setString(2, assistencia.getMedicamento());
@@ -58,7 +58,7 @@ public class AssistenciaDAO {
     public List<AssistenciaM> ListaAssistencia() throws SQLException{
         List<AssistenciaM> listaassistencia;
         listaassistencia = new ArrayList<>();
-        sql = "select * from cliente order by nome";
+        sql = "select * from assistencia order by nome";
         pst = Conexao.getInstance().prepareStatement(sql);
         ResultSet rs = pst.executeQuery();
         while(rs.next()){
@@ -74,21 +74,49 @@ public class AssistenciaDAO {
         return listaassistencia;
     }
     
-    public ResultSet busca(int id) throws SQLException{
-        AssistenciaM assistenciam = null;
+        public List<AssistenciaM> buscaListaVazia() throws SQLException{
+        List<AssistenciaM> assistenciaM = new ArrayList<>();
         
-        sql = "select Nome_cliente from assistencia where id = ?";
+        sql = "select * from vazio where id = 1";
+        pst = Conexao.getInstance().prepareStatement(sql);
+        ResultSet rs = pst.executeQuery();
+        while(rs.next()){
+           assistenciaM.add(new AssistenciaM(
+                   rs.getInt("id"),
+                   rs.getInt("Cliente_id"),
+                   rs.getString("medicamento"),
+                   rs.getString("data_atendimento"),
+                   rs.getString("quadro_acontecimento"),
+                   rs.getString("atendente")));  
+        }
+        pst.close();
+        return assistenciaM;
+    }
+    
+    public AssistenciaM busca(int id) throws SQLException{
+        AssistenciaM assistenciaM = null;
+        
+        sql = "select * from assistencia where id = ?";
         pst = Conexao.getInstance().prepareStatement(sql);
         pst.setInt(1, id);
         ResultSet rs = pst.executeQuery();
+        while(rs.next()){
+           assistenciaM = new AssistenciaM(
+                   rs.getInt("id"),
+                   rs.getInt("Cliente_id"),
+                   rs.getString("medicamento"),
+                   rs.getString("data_atendimento"),
+                   rs.getString("quadro_acontecimento"),
+                   rs.getString("atendente"));  
+        }
         pst.close();
-        return rs;
+        return assistenciaM;
     }
     public List<AssistenciaM> buscaAssistencia(String Nome) throws SQLException{
-        List<AssistenciaM> assistenciaM = new ArrayList<AssistenciaM>();
+        List<AssistenciaM> assistenciaM = new ArrayList<>();
         int cont = 0;
         
-        sql = "select * from Assistencia where Cliente_id = ? order by id";
+        sql = "select * from assistencia where Cliente_id = ? order by id desc";
         pst = Conexao.getInstance().prepareStatement(sql);
         pst.setString(1, Nome);
         ResultSet rs = pst.executeQuery();
