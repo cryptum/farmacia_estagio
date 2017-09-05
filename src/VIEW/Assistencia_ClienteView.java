@@ -6,6 +6,7 @@
 package VIEW;
 import DAO.AssistenciaDAO;
 import MODEL.*;
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.net.URL;
@@ -34,7 +35,6 @@ public class Assistencia_ClienteView extends javax.swing.JFrame {
     int Valor;
     public Assistencia_ClienteView(int Numero1, String Nome1, int Tipo1){
         initComponents();
-        this.setVisible(true);
         this.setLocationRelativeTo(null);
         assistenciadao = new AssistenciaDAO();
         listaassistencia = new ArrayList<>();
@@ -44,10 +44,10 @@ public class Assistencia_ClienteView extends javax.swing.JFrame {
         Setdados();
         desativaCampos();
         txtAtendente.setDocument(new LimiteDigitos(50));
-        
         URL url = this.getClass().getResource("/VIEW/imagem/Icone.jpg");
         Image imagemTitulo = Toolkit.getDefaultToolkit().getImage(url);
         this.setIconImage(imagemTitulo);
+        this.setVisible(true);
     }
 
     @SuppressWarnings("unchecked")
@@ -63,7 +63,7 @@ public class Assistencia_ClienteView extends javax.swing.JFrame {
         btnSalvar = new javax.swing.JLabel();
         txtNome = new javax.swing.JTextField();
         btnCancelar = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
+        btnLimpar = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         txtDataAtendimento = new javax.swing.JFormattedTextField();
         jPanel1 = new javax.swing.JPanel();
@@ -102,6 +102,18 @@ public class Assistencia_ClienteView extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnSalvarMouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnSalvarMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnSalvarMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnSalvarMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnSalvarMouseReleased(evt);
+            }
         });
 
         txtNome.setFont(new java.awt.Font("Trebuchet MS", 0, 15)); // NOI18N
@@ -113,14 +125,38 @@ public class Assistencia_ClienteView extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnCancelarMouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnCancelarMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnCancelarMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnCancelarMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnCancelarMouseReleased(evt);
+            }
         });
 
-        jLabel8.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/VIEW/imagem/Novo.png"))); // NOI18N
-        jLabel8.setText("Limpar");
-        jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnLimpar.setFont(new java.awt.Font("Trebuchet MS", 0, 13)); // NOI18N
+        btnLimpar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/VIEW/imagem/Novo.png"))); // NOI18N
+        btnLimpar.setText("Limpar");
+        btnLimpar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel8MouseClicked(evt);
+                btnLimparMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnLimparMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnLimparMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                btnLimparMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                btnLimparMouseReleased(evt);
             }
         });
 
@@ -130,7 +166,7 @@ public class Assistencia_ClienteView extends javax.swing.JFrame {
         txtDataAtendimento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
         txtDataAtendimento.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
 
-        jPanel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(10, 154, 193), 1, true));
+        jPanel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 153, 153), 1, true));
 
         txtMedicamento.setFont(new java.awt.Font("Trebuchet MS", 0, 15)); // NOI18N
         jScrollPane2.setViewportView(txtMedicamento);
@@ -161,7 +197,7 @@ public class Assistencia_ClienteView extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(10, 154, 193), 1, true));
+        jPanel2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 153, 153), 1, true));
 
         txtQuadroOcorrido.setFont(new java.awt.Font("Trebuchet MS", 0, 15)); // NOI18N
         jScrollPane1.setViewportView(txtQuadroOcorrido);
@@ -206,7 +242,7 @@ public class Assistencia_ClienteView extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(79, 79, 79)
-                        .addComponent(jLabel8)
+                        .addComponent(btnLimpar)
                         .addGap(45, 45, 45)
                         .addComponent(btnSalvar)
                         .addGap(45, 45, 45)
@@ -277,7 +313,7 @@ public class Assistencia_ClienteView extends javax.swing.JFrame {
                             .addComponent(btnCancelar, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(btnSalvar)
-                                .addComponent(jLabel8)))
+                                .addComponent(btnLimpar)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
@@ -304,7 +340,6 @@ public class Assistencia_ClienteView extends javax.swing.JFrame {
                 Logger.getLogger(ClienteView.class.getName()).log(Level.SEVERE, null, ex);
             }
             JOptionPane.showMessageDialog(null, "Gravado com Sucesso.");
-            desabilitaCampos();
         }else{
             assistencia.setId(Integer.parseInt(txtIdassistencia.getText()));
             assistencia.setNome_cliente(Integer.valueOf(txtIdCliente.getText()));
@@ -318,19 +353,69 @@ public class Assistencia_ClienteView extends javax.swing.JFrame {
             } catch (SQLException ex) {
                 Logger.getLogger(ClienteView.class.getName()).log(Level.SEVERE, null, ex);
             }
-            JOptionPane.showMessageDialog(null, "Gravado com Sucesso.");
-            desabilitaCampos();
-            
+            JOptionPane.showMessageDialog(null, "Gravado com Sucesso."); 
         }}
+        
+    AssistenciaView assistencia = new AssistenciaView(Integer.parseInt(txtIdCliente.getText()));
+    assistencia.setVisible(true);
+    this.dispose();
     }//GEN-LAST:event_btnSalvarMouseClicked
 
-    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
+    private void btnLimparMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLimparMouseClicked
         limpaCampos();
-    }//GEN-LAST:event_jLabel8MouseClicked
+    }//GEN-LAST:event_btnLimparMouseClicked
 
     private void btnCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseClicked
         this.dispose();
     }//GEN-LAST:event_btnCancelarMouseClicked
+
+    private void btnLimparMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLimparMouseEntered
+        btnLimpar.setForeground(Color.gray);
+    }//GEN-LAST:event_btnLimparMouseEntered
+
+    private void btnLimparMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLimparMouseExited
+        btnLimpar.setForeground(Color.black);
+    }//GEN-LAST:event_btnLimparMouseExited
+
+    private void btnLimparMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLimparMouseReleased
+        btnLimpar.setForeground(Color.black);
+    }//GEN-LAST:event_btnLimparMouseReleased
+
+    private void btnLimparMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLimparMousePressed
+        btnLimpar.setForeground(Color.lightGray);
+    }//GEN-LAST:event_btnLimparMousePressed
+
+    private void btnSalvarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalvarMouseExited
+        btnSalvar.setForeground(Color.black);
+    }//GEN-LAST:event_btnSalvarMouseExited
+
+    private void btnSalvarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalvarMouseEntered
+        btnSalvar.setForeground(Color.gray);
+    }//GEN-LAST:event_btnSalvarMouseEntered
+
+    private void btnSalvarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalvarMousePressed
+        btnSalvar.setForeground(Color.lightGray);
+    }//GEN-LAST:event_btnSalvarMousePressed
+
+    private void btnSalvarMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalvarMouseReleased
+        btnSalvar.setForeground(Color.black);
+    }//GEN-LAST:event_btnSalvarMouseReleased
+
+    private void btnCancelarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseExited
+        btnCancelar.setForeground(Color.black);
+    }//GEN-LAST:event_btnCancelarMouseExited
+
+    private void btnCancelarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseEntered
+        btnCancelar.setForeground(Color.gray);
+    }//GEN-LAST:event_btnCancelarMouseEntered
+
+    private void btnCancelarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMousePressed
+        btnCancelar.setForeground(Color.lightGray);
+    }//GEN-LAST:event_btnCancelarMousePressed
+
+    private void btnCancelarMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseReleased
+        btnCancelar.setForeground(Color.black);
+    }//GEN-LAST:event_btnCancelarMouseReleased
 
  
     public void Setdados(){
@@ -388,6 +473,7 @@ public class Assistencia_ClienteView extends javax.swing.JFrame {
     private javax.swing.JLabel IDCliente;
     private javax.swing.JLabel IDassistencia;
     private javax.swing.JLabel btnCancelar;
+    private javax.swing.JLabel btnLimpar;
     private javax.swing.JLabel btnSalvar;
     private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JLabel jLabel2;
@@ -395,7 +481,6 @@ public class Assistencia_ClienteView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
