@@ -8,6 +8,9 @@ package VIEW;
 import DAO.ClienteDAO;
 import MODEL.ClienteM;
 import java.awt.Color;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.net.URL;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -46,6 +49,9 @@ public class ClienteView extends javax.swing.JFrame {
         txtBairro.setDocument(new LimiteDigitos(45));
         txtTelefone.setDocument(new LimiteDigitos(20));
         txtData_nascimento.setDocument(new LimiteDigitos(10));
+        URL url = this.getClass().getResource("/VIEW/imagem/Icone.jpg");
+        Image imagemTitulo = Toolkit.getDefaultToolkit().getImage(url);
+        this.setIconImage(imagemTitulo);
         this.setVisible(true);
     }
 
@@ -395,8 +401,8 @@ public class ClienteView extends javax.swing.JFrame {
         txtEndereco.setText(cliente.getEndereco());
         txtNumero.setText(cliente.getNumero());
         txtBairro.setText(cliente.getBairro());
-        txtTelefone.setText(cliente.getTelefone());
-        txtData_nascimento.setText(cliente.getData_nascimento());
+        txtTelefone.setText(cliente.getTelefone().toString());
+        txtData_nascimento.setText(cliente.getData_nascimento().toString());
         preparaSelecaoTabela();
     }//GEN-LAST:event_tblClienteMouseClicked
 

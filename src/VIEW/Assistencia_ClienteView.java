@@ -322,7 +322,7 @@ public class Assistencia_ClienteView extends javax.swing.JFrame {
 
     private void btnSalvarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSalvarMouseClicked
     assistencia = new AssistenciaM();
-    int confirma = JOptionPane.showConfirmDialog(null, "Deseja Salvar:");
+    int confirma = JOptionPane.showConfirmDialog(null, "Deseja Salvar?");
         if(confirma == 0){
         if(txtNome.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Preencha todos os campos");
